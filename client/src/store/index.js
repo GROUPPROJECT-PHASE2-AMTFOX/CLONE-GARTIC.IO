@@ -9,7 +9,8 @@ export default new Vuex.Store({
     users: [],
     rooms:[],
     roomDetail:{},
-    isPlaying:false
+    isPlaying:false,
+    canvasStroke:{}
   },
   mutations: {
     setUsers (state, payload) {
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     startGame(state){
       state.isPlaying=true
+    },
+    canvasStroke(state,data){
+      state.canvasStroke=data
     }
   },
   actions: {
@@ -72,6 +76,16 @@ socket.on('updated-rooms',(data)=>{
     nextQuestion(context,data){
       console.log('sudah di dalam index store')
       socket.emit('next-question',data)
+    },
+    canvasLine(context,data){
+      console.log('ada di canvas line',data)
+      socket.emit('canvas-line',data)
+    },
+    canvasStroke(context){
+      socket.on('canvas-stroke',(data)=>{
+        console.log(data,'canvas stroke index store')
+        context.commit('canvasStroke',data)
+      })
     }
   },
   modules: {

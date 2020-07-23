@@ -80,6 +80,16 @@ io.on('connection', socket => {
 
 
     })
+    socket.on('canvas-line',(data)=>{
+        let roomIndex = rooms.findIndex((i) => i.name == data.roomName)
+
+        socket.join(data.roomName), function(){
+            io.sockets.in(data.roomName).emit('canvas-stroke',data)
+        }
+
+
+        console.log(data)
+    })
     
 
 });

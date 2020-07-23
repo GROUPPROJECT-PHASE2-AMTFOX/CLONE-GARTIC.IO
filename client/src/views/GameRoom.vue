@@ -35,8 +35,10 @@
           <div class="canvas mt-3">
             <!-- <h1>ini canvas</h1>
             <canvas id="myCanvas" width="500" height="300"></canvas>-->
-            <Canvas></Canvas>
-          </div>
+            <!-- <Canvas style="cursor:not-allowed; pointer-events:none"></Canvas> -->
+            <!-- <button @click="drawTime">draw</button> -->
+            <Canvas :style="pointerEvent"></Canvas>
+             </div>
         </div>
         <div class="row">
           <div class="col chat-box mt-1 mr-2">
@@ -120,7 +122,9 @@ export default {
     return {
       username: localStorage.username,
       data:this.$store.state.roomDetail,
-      playingNow:false
+      playingNow:false,
+      cursorType:'not-allowed',
+      pointerEvent:'pointer-events:none',
     }
   },
   methods: {
@@ -135,6 +139,23 @@ export default {
         dataRoom : this.$store.state.roomDetail
       }
       this.$store.dispatch("nextQuestion",payload)
+      
+    },
+    drawTime(){
+      let localIndex = this.$store.state.roomDetail.index
+      if(localIndex === undefined){
+        console.log('local index undefined')
+      }
+      else{
+        let player = this.$store.state.roomDetail.users[localIndex].name
+        if(player === localStorage.username){
+          this.pointerEvent='pointer-event:auto'
+        }
+        else{
+          this.pointerEvent='pointer-event:none'
+        }
+      }
+
     }
   },
   computed: {
@@ -156,7 +177,7 @@ export default {
           return false
         }
       }
-    }     
+    }   
   },
   created() {
     this.$store.dispatch("roomDetail");
