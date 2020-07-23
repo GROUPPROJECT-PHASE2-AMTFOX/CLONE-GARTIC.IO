@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>{{message}}</h1>
     <canvas
       id="canvas"
       v-on:mousedown="handleMouseDown"
@@ -12,6 +11,7 @@
 
     <canvas
       id="canvas2"
+
       v-on:mousemove="handleMouseMove"
       width="400px"
       height="200px"
@@ -65,6 +65,9 @@ export default {
     },draw2: function (event) {
       // requestAnimationFrame(this.draw);
       if (this.mouse.down) {
+
+
+        
         var c = document.getElementById("canvas2");
         var ctx = c.getContext("2d");
         ctx.clearRect(0, 0, 800, 800);
@@ -89,6 +92,7 @@ export default {
 
       ctx.moveTo(this.currentMouse.x, this.currentMouse.y);
     },
+
     handleMouseUp: function () {
       this.mouse.down = false;
     },

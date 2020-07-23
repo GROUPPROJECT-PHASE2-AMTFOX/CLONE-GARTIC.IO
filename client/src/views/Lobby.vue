@@ -8,12 +8,12 @@
 <script>
 export default {
 created(){
-    this.$store.dispatch('roomDetail')
+    // this.$store.dispatch('roomDetail')
 },
 computed:{
-    roomDetails(){
-        return this.$store.state.roomDetail
-    }
+    // roomDetails(){
+    //     return this.$store.state.roomDetail
+    // }
 }
 }
 </script>

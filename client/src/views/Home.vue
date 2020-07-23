@@ -58,7 +58,7 @@ export default {
         userName:localStorage.username
       }
       this.$store.dispatch('joinRoom',payload)
-      this.$router.push(`/lobby/${data}`)
+      this.$router.push(`/game/${data}`)
 
     },
     createRoom(){
@@ -72,7 +72,6 @@ export default {
   },
   created () {
     // this.$store.dispatch('updateUsers')
- 
     this.$store.dispatch('updateRooms')
   }
 }

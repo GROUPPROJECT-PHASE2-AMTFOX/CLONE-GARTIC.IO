@@ -5,3 +5,8 @@ let animalList=[
 let itemList =[
     'bed','mug','glass','rug','laptop','computer','handphone','photo','picture','cable','spoon','fork','plate','knife','refrigerator','chair','sofa','wardrobe','shoes','sandals','television','microwave','table','window','door','ruler','pencil','pen','eraser','bag','box','shirt','pillow','clock','tissue','shampoo','soap','toaster','radio','pot','mirror','blender','lamp','sponge','mop','broom','key','faucet','speaker','umbrella','car','book','sink','toilet','brush','desk','fan','grater'
 ]
+
+
+module.exports ={
+    animalList,itemList
+}

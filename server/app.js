@@ -4,6 +4,8 @@ const server = require('http').createServer();
 const io = require('socket.io')(server);
 const PORT = process.env.PORT || 3000
 const cors = require('cors')
+const { animalList, itemList } = require('../ListAnimals');
+
 
 app.use(cors())
 
@@ -15,7 +17,7 @@ io.on('connection', socket => {
         console.log('login server', username)
         users.push(username)
         io.emit('user-data', users)
-        // socket.emit('get-rooms',rooms);
+        console.log(rooms)
         io.emit('updated-rooms', rooms)
     }),
         socket.on('create-room', (data) => {
@@ -35,14 +37,30 @@ io.on('connection', socket => {
         // console.log(`dalam server`,data)
 
         socket.join(data.roomName, function () {
-            let roomIndex = rooms.findIndex((i)=> i.name == data.roomName)
+            let roomIndex = rooms.findIndex((i) => i.name == data.roomName)
             // console.log(roomIndex)
             rooms[roomIndex].users.push({
-                name:data.userName,
-                points:0
+                name: data.userName,
+                points: 0
             })
-            io.sockets.in(data.roomName).emit('room-detail',rooms[roomIndex])
+            io.sockets.in(data.roomName).emit('room-detail', rooms[roomIndex])
         })
+    })
+    socket.on('start-game', (data) => {
+        let roomIndex = rooms.findIndex((i) => i.name == data)
+        // console.log(rooms[roomIndex],`dari start-game`)
+        let jumlahBinatang = animalList.length - 1
+        let randomNumber = Math.ceil(Math.random() * jumlahBinatang)
+        let jawaban = animalList[randomNumber]
+        rooms[roomIndex].jawaban = jawaban;
+        console.log(`jawabannya adalah`, jawaban)
+        socket.join(data,function(){
+            io.sockets.in(data).emit('room-detail', rooms[roomIndex])
+        })
+
+    })
+    socket.on('next-question',(data)=>{
+        console.log(data)
     })
 
 });
