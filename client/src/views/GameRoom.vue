@@ -2,7 +2,7 @@
   <div class="container game-room">
     <div class="row row-cols-2">
       <div class="col-3 align-self-start player-list mr-5 mb-1">
-        <h2>Player List WKWK</h2>
+        <h2>Player List</h2>
         <div class="card">
           <div class="card-body">
             <div class="row player-in-room">
@@ -11,7 +11,7 @@
               </div>
               <div class="col username-player-list">
                 <strong>
-                  <span>Username</span>
+                  <span>Nickname</span>
                 </strong>
               </div>
             </div>
@@ -78,45 +78,28 @@
       <div class="col-8 game">
         <div class="row">
           <div class="canvas mt-3">
-            <h1>ini canvas</h1>
+          
             <canvas id="myCanvas" width="500" height="300"></canvas>
           </div>
         </div>
-        <div class="row">
-          <div class="col chat-box mt-1 mr-2">
-            <div class="chat-answer col mr-2">
-              <div class="message-box">
-                <p class="chatlog"><strong>Username:</strong>swan</p>
-                <p class="chatlog"><span><strong>Username:</strong>bebek</span></p>
-                <p class="chatlog"><span><strong>Username:</strong>banteng</span></p>
-                <p class="chatlog"><span><strong>Username:</strong>kelinci</span></p>
-                <p class="chatlog"><span><strong>Username:</strong>wkwkkwwk</span></p>
-                <p class="chatlog"><strong>Username:</strong>swan</p>
-                <p class="chatlog"><span><strong>Username:</strong>bebek</span></p>
-                <p class="chatlog"><span><strong>Username:</strong>banteng</span></p>
-                <p class="chatlog"><span><strong>Username:</strong>kelinci</span></p>
-                <p class="chatlog"><span><strong>Username:</strong>wkwkkwwk</span></p>
-              </div>
-              <div class="input-box">
-                <input
-                  type="text"
-                  name="chat"
-                  id="chatbox"
-                  placeholder="type your answer"
-                />
-              </div>
-            </div>
+        <div class="row ml-5">
+          <div class="col chat-box">
             <div class="chat-regular col">
               <div class="message-box">
                 <p class="chatlog"><strong>Username:</strong>chat biasa</p>
-                
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
               </div>
               <div class="input-box">
                 <input
                   type="text"
                   name="chat"
                   id="chatbox"
-                  placeholder="chit-chat here"
+                  placeholder="answer here"
                 />
               </div>
             </div>
@@ -137,8 +120,11 @@ export default {};
 }
 
 .player-list {
-  background: #ddd;
+  background: rgb(235, 235, 240, 0);
+  background-blend-mode: darken;
   padding-bottom: 1rem;
+  
+  border-radius: 2rem;
 }
 
 .username-player-list {
@@ -148,6 +134,8 @@ export default {};
 
 .card {
   width: 100%;
+  border-radius: 2rem;
+  margin: 5px 5px;
 }
 
 .chatlog {
@@ -159,9 +147,7 @@ export default {};
 
 .message-box {
   align-items: flex-end;
-  border: black;
-  border-style: solid;
-  width: 220px;
+  width: 100%;
   margin-bottom: 5px;
   height: 150px;
   overflow: auto;
@@ -180,6 +166,13 @@ export default {};
   margin-right: 2rem;
 }
 
+.input-box {
+  width: 100%;
+}
+
+#chatbox {
+  width: 90%;
+}
 
 .chat-answer {
   background: cornsilk;
