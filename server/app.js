@@ -27,7 +27,8 @@ io.on('connection', socket => {
                 admin: data.admin,
                 index: 0,
                 users: [],
-                jawaban: ''
+                jawaban: '',
+                rounds:0
             }
             rooms.push(room)
             console.log(rooms)
@@ -70,6 +71,7 @@ io.on('connection', socket => {
         else{
             rooms[roomIndex].index = 0;
         }
+        rooms[roomIndex].rounds+=1
         let jumlahBinatang = animalList.length - 1
         let randomNumber = Math.ceil(Math.random() * jumlahBinatang)
         let jawaban = animalList[randomNumber]
@@ -89,6 +91,22 @@ io.on('connection', socket => {
 
 
         console.log(data)
+    })
+
+    socket.on('tebakan-server',(data)=>{
+        let roomIndex = rooms.findIndex((i) => i.name == data.roomName)
+        let usernameIndex = rooms[roomIndex].users.findIndex((j)=>j.name ==data.username)
+        console.log(roomIndex,usernameIndex)
+        console.log(data)
+        if(rooms[roomIndex].jawaban === data.tebakan){
+            rooms[roomIndex].users[usernameIndex].points+=10
+        }
+        
+        socket.join(data.roomName),function(){
+            io.sockets.in(data.roomName).emit('room-detail',rooms[roomIndex])
+        }
+        // console.log(rooms)
+        // console.log(rooms[roomIndex].users)
     })
     
 

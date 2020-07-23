@@ -86,7 +86,17 @@ socket.on('updated-rooms',(data)=>{
         console.log(data,'canvas stroke index store')
         context.commit('canvasStroke',data)
       })
+    },
+    tebakanServer(context,data){
+      console.log(data)
+      socket.emit('tebakan-server',data)
+    },
+    hasilTebakan(context){
+      socket.on('hasil-tebakan',(data)=>{
+        console.log(data,'hasil tebakan')
+      })
     }
+
   },
   modules: {
   }

@@ -3,13 +3,13 @@
     <div class="row row-cols-2">
       <div class="col-3 align-self-start player-list mr-5 mb-1">
         <div>
+          <h1> {{winner}} </h1>
         <h1 v-if="isPlaying === true">{{roomDetails.jawaban}}</h1>
         <button v-if="isPlaying === true" @click="nextQuestion">Next</button>
-        </div>
+        <h2>Player List</h2>
         <div v-if="playingNow === false">
           <button v-if="roomDetails.admin === username" @click="startGame">Start Game</button>
         </div>
-        <h2>Contestant</h2>
         <div v-for="(user,index) in roomDetails.users" :key="index">
           <div class="card">
             <div class="card-body">
@@ -37,10 +37,15 @@
             <canvas id="myCanvas" width="500" height="300"></canvas>-->
             <!-- <Canvas style="cursor:not-allowed; pointer-events:none"></Canvas> -->
             <!-- <button @click="drawTime">draw</button> -->
-            <Canvas :style="pointerEvent"></Canvas>
+            <!-- <Canvas :style="pointerEvent"></Canvas> -->
+
+
+
+
+            <Canvas></Canvas>
              </div>
         </div>
-        <div class="row">
+        <div class="row" >
           <div class="col chat-box mt-1 mr-2">
             <div class="chat-answer col mr-2">
               <div class="message-box">
@@ -91,11 +96,14 @@
                   </span>
                 </p>
               </div>
+              <form @submit.prevent="tebak">
               <div class="input-box">
-                <input type="text" name="chat" id="chatbox" placeholder="type your answer" />
+                <input type="text" name="chat" id="chatbox" placeholder="type your answer" style="min-width=200px" v-model="tebakan" />
+                <input type="submit" name="submit" value="submit">
               </div>
+              </form>
             </div>
-            <div class="chat-regular col">
+            <!-- <div class="chat-regular col">
               <div class="message-box">
                 <p class="chatlog">
                   <strong>Username:</strong>chat biasa
@@ -103,9 +111,32 @@
               </div>
               <div class="input-box">
                 <input type="text" name="chat" id="chatbox" placeholder="chit-chat here" />
+           -->
+            <!-- <canvas id="myCanvas" width="500" height="300"></canvas> -->
+           </div>
+        </div>
+        <!--<div class="row ml-5">
+          <div class="col chat-box">
+            <div class="chat-regular col">
+              <div class="message-box">
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+                <p class="chatlog"><strong>Username:</strong>chat biasa</p>
+              </div>
+              <div class="input-box">
+                <input
+                  type="text"
+                  name="chat"
+                  id="chatbox"
+                  placeholder="answer here"
+                />-->
               </div>
             </div>
-          </div>
+          </div> 
         </div>
       </div>
     </div>
@@ -125,6 +156,7 @@ export default {
       playingNow:false,
       cursorType:'not-allowed',
       pointerEvent:'pointer-events:none',
+      tebakan:''
     }
   },
   methods: {
@@ -139,7 +171,6 @@ export default {
         dataRoom : this.$store.state.roomDetail
       }
       this.$store.dispatch("nextQuestion",payload)
-      
     },
     drawTime(){
       let localIndex = this.$store.state.roomDetail.index
@@ -155,6 +186,17 @@ export default {
           this.pointerEvent='pointer-event:none'
         }
       }
+
+    }
+    ,
+    tebak(){
+      console.log(this.tebakan)
+      let payload={
+        username:localStorage.username,
+        tebakan:this.tebakan,
+        roomName:this.$store.state.roomDetail.name
+      }
+      this.$store.dispatch('tebakanServer',payload)
 
     }
   },
@@ -177,10 +219,28 @@ export default {
           return false
         }
       }
+    },
+    winner(){
+      let dataRoom = this.$store.state.roomDetail
+      let rounds = this.$store.state.roomDetail.rounds
+      let points = 0
+      let winner =''
+      if(rounds === 4){
+        for(let i =0;i<dataRoom.users.length;i++){
+          if(dataRoom.users[i].points > points){
+            points = dataRoom.users[i].points;
+            winner = dataRoom.users[i].name
+          }
+        }
+      }
+      let tampilan = `Winner : ${winner}`
+      return tampilan
     }   
   },
   created() {
-    this.$store.dispatch("roomDetail");
+    this.$store.dispatch("hasilTebakan");
+this.$store.dispatch("roomDetail");
+
   }
 }
 </script>
@@ -191,8 +251,11 @@ export default {
 }
 
 .player-list {
-  background: #ddd;
+  background: rgb(235, 235, 240, 0);
+  background-blend-mode: darken;
   padding-bottom: 1rem;
+  
+  border-radius: 2rem;
 }
 
 .username-player-list {
@@ -202,6 +265,8 @@ export default {
 
 .card {
   width: 100%;
+  border-radius: 2rem;
+  margin: 5px 5px;
 }
 
 .chatlog {
@@ -213,9 +278,7 @@ export default {
 
 .message-box {
   align-items: flex-end;
-  border: black;
-  border-style: solid;
-  width: 220px;
+  width: 100%;
   margin-bottom: 5px;
   height: 150px;
   overflow: auto;
@@ -232,6 +295,14 @@ export default {
   flex-direction: row;
   height: 220px;
   margin-right: 2rem;
+}
+
+.input-box {
+  width: 100%;
+}
+
+#chatbox {
+  width: 90%;
 }
 
 .chat-answer {

@@ -27,6 +27,11 @@ const routes = [
     path: '/game/:namaroom',
     name: 'GameRoom',
     component: GameRoom
+  },
+  {
+    path: '/lobby',
+    name: 'Lobby',
+    component: Lobby
   }
 ]
 

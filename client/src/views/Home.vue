@@ -23,6 +23,8 @@
     <button @click="createRoom">Create Room</button>
     <br>
     <button @click="logout">Logout</button>
+    <h2> ini data {{users}} </h2>
+    <button @click.prevent="logout">Logout</button>
   </div>
 </template>
 
