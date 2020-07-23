@@ -4,6 +4,7 @@
       <div class="col-3 align-self-start player-list mr-5 mb-1">
         <div>
         <h1 v-if="isPlaying === true">{{roomDetails.jawaban}}</h1>
+        <button v-if="isPlaying === true" @click="nextQuestion">Next</button>
         </div>
         <div v-if="playingNow === false">
           <button v-if="roomDetails.admin === username" @click="startGame">Start Game</button>
@@ -127,6 +128,13 @@ export default {
       let namaRoom = this.roomDetails.name;
       this.$store.dispatch("startGame", namaRoom);
       this.playingNow=true
+    },
+    nextQuestion(){
+      console.log('pertanyaan berikutnya')
+      let payload = {
+        dataRoom : this.$store.state.roomDetail
+      }
+      this.$store.dispatch("nextQuestion",payload)
     }
   },
   computed: {
@@ -134,7 +142,6 @@ export default {
       return this.$store.state.roomDetail;
     },
     isPlaying(){
-
       let localIndex = this.$store.state.roomDetail.index
       if(localIndex === undefined){
         console.log('local index undefined')
@@ -149,20 +156,6 @@ export default {
           return false
         }
       }
-
-      // if(this.$store.state.isPlaying === false){
-      //   console.log('playing now false')
-      // }
-      // else{
-      //   let localIndex = this.$store.state.roomDetail.index
-      //   let player = this.$store.state.roomDetail.users[localIndex].name
-      //   if(player === localStorage.username){
-      //     return true
-      //   }
-      //   else{
-      //     return false
-      //   }
-      // }
     }     
   },
   created() {

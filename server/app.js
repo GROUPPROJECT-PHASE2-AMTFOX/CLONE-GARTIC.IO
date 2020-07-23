@@ -31,13 +31,14 @@ io.on('connection', socket => {
             }
             rooms.push(room)
             console.log(rooms)
+            // rooms=[]
             io.emit('updated-rooms', rooms)
         })
     socket.on('join-room', (data) => {
         // console.log(`dalam server`,data)
         socket.join(data.roomName, function () {
             let roomIndex = rooms.findIndex((i) => i.name == data.roomName)
-            console.log(roomIndex,'dari dalam server')
+            console.log(roomIndex, 'dari dalam server')
             rooms[roomIndex].users.push({
                 name: data.userName,
                 points: 0
@@ -53,14 +54,33 @@ io.on('connection', socket => {
         let jawaban = animalList[randomNumber]
         rooms[roomIndex].jawaban = jawaban;
         console.log(`jawabannya adalah`, jawaban)
-        socket.join(data,function(){
+        socket.join(data, function () {
             io.sockets.in(data).emit('room-detail', rooms[roomIndex])
         })
 
     })
-    socket.on('next-question',(data)=>{
-        console.log(data)
+    socket.on('next-question', (data) => {
+        // console.log(data)
+        let roomIndex = rooms.findIndex((i) => i.name == data.dataRoom.name)
+        // console.log(roomIndex)
+        let totalPlayer = rooms[roomIndex].users.length
+        if(rooms[roomIndex].index < totalPlayer - 1){
+            rooms[roomIndex].index = rooms[roomIndex].index+1
+        } 
+        else{
+            rooms[roomIndex].index = 0;
+        }
+        let jumlahBinatang = animalList.length - 1
+        let randomNumber = Math.ceil(Math.random() * jumlahBinatang)
+        let jawaban = animalList[randomNumber]
+        rooms[roomIndex].jawaban = jawaban;
+        socket.join(data.dataRoom.name, function () {
+            io.sockets.in(data.dataRoom.name).emit('room-detail', rooms[roomIndex])
+        })
+
+
     })
+    
 
 });
 

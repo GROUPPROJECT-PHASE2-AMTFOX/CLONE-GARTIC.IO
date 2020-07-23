@@ -59,7 +59,6 @@ export default {
         ctx.strokeStyle = "#F63E02";
         ctx.lineWidth = 2;
         //  console.log(this.currentMouse.x, this.currentMouse.y,'dari draw')
-        //  console.log(ctx)
         ctx.stroke();
       }
     },draw2: function (event) {
@@ -89,7 +88,6 @@ export default {
 
       var c = document.getElementById("canvas");
       var ctx = c.getContext("2d");
-
       ctx.moveTo(this.currentMouse.x, this.currentMouse.y);
     },
 

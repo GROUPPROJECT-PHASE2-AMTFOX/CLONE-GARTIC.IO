@@ -68,6 +68,10 @@ socket.on('updated-rooms',(data)=>{
     startGame(context,data){
       socket.emit('start-game',data)
       context.commit('startGame')
+    },
+    nextQuestion(context,data){
+      console.log('sudah di dalam index store')
+      socket.emit('next-question',data)
     }
   },
   modules: {
