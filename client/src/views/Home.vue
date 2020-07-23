@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
+<<<<<<< HEAD
     <table>
     <thead>
       <tr>
@@ -23,6 +24,10 @@
     <button @click="createRoom">Create Room</button>
     <br>
     <button @click="logout">Logout</button>
+=======
+    <h2> ini data {{users}} </h2>
+    <button @click.prevent="logout">Logout</button>
+>>>>>>> df574732c0e3230080d47df2fd7b2d11779f6570
   </div>
 </template>
 
