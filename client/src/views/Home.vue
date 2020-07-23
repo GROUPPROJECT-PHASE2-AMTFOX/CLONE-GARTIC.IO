@@ -71,7 +71,6 @@ export default {
    }
   },
   created () {
-    // this.$store.dispatch('updateUsers')
     this.$store.dispatch('updateRooms')
   }
 }

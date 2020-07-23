@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     users: [],
     rooms:[],
-    roomDetail:{}
+    roomDetail:{},
+    isPlaying:false
   },
   mutations: {
     setUsers (state, payload) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     roomDetail(state,data){
       state.roomDetail = data
       console.log(state.roomDetail)
+    },
+    startGame(state){
+      state.isPlaying=true
     }
   },
   actions: {
@@ -63,6 +67,7 @@ socket.on('updated-rooms',(data)=>{
     },
     startGame(context,data){
       socket.emit('start-game',data)
+      context.commit('startGame')
     }
   },
   modules: {

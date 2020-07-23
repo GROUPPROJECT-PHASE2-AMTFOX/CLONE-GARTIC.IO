@@ -118,7 +118,7 @@ export default {
   data() {
     return {
       username: localStorage.username,
-      data:'',
+      data:this.$store.state.roomDetail,
       playingNow:false
     }
   },
@@ -133,16 +133,37 @@ export default {
     roomDetails() {
       return this.$store.state.roomDetail;
     },
-    isPlaying() {
-      let localIndex = this.$store.state.roomDetail.index;
-      let player = this.$store.state.roomDetail.users[localIndex].name;
-      console.log(player);
-      if (player === localStorage.username) {
-        return true;
-      } else {
-        return false;
+    isPlaying(){
+
+      let localIndex = this.$store.state.roomDetail.index
+      if(localIndex === undefined){
+        console.log('local index undefined')
+        return false
       }
-    }
+      else{
+        let player = this.$store.state.roomDetail.users[localIndex].name
+        if(player === localStorage.username){
+          return true
+        }
+        else{
+          return false
+        }
+      }
+
+      // if(this.$store.state.isPlaying === false){
+      //   console.log('playing now false')
+      // }
+      // else{
+      //   let localIndex = this.$store.state.roomDetail.index
+      //   let player = this.$store.state.roomDetail.users[localIndex].name
+      //   if(player === localStorage.username){
+      //     return true
+      //   }
+      //   else{
+      //     return false
+      //   }
+      // }
+    }     
   },
   created() {
     this.$store.dispatch("roomDetail");

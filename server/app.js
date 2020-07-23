@@ -35,10 +35,9 @@ io.on('connection', socket => {
         })
     socket.on('join-room', (data) => {
         // console.log(`dalam server`,data)
-
         socket.join(data.roomName, function () {
             let roomIndex = rooms.findIndex((i) => i.name == data.roomName)
-            // console.log(roomIndex)
+            console.log(roomIndex,'dari dalam server')
             rooms[roomIndex].users.push({
                 name: data.userName,
                 points: 0
