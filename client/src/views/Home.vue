@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <h1> ini data {{users}} </h1>
+    <h2> ini data {{users}} </h2>
     <button @click.prevent="logout">Logout</button>
   </div>
 </template>
