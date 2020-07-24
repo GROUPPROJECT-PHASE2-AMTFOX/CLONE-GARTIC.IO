@@ -1,0 +1,9 @@
+{
+    "name":"nama Room",
+    "users":[
+        {"name":"theo1","point":10},{"name":"theo2","point":10},{"name":"theo3","point":0}
+    ],
+    "admin":"",
+    "index":0,
+    "jawaban":""
+}
