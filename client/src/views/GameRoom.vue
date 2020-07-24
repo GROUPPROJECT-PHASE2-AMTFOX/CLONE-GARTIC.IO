@@ -2,11 +2,11 @@
   <div class="container game-room">
     <div class="row">
       <div class="col align-self-start player-list mr-5 mb-1">
-        <h2> {{winner}} </h2>
+        <h2 v-if="isFinish"> {{winner}} </h2>
         <p v-if="isPlaying === true">{{roomDetails.jawaban}}</p>
         <button v-if="isPlaying === true" @click="nextQuestion">Next</button>
-        <div class="card-container" v-if="playingNow === false">
-          <button v-if="roomDetails.admin === username" @click="startGame">Start Game</button>
+        <div class="card-container">
+          <button v-if="roomDetails.admin === username && isStart===false" @click="startGame">Start Game</button>
           <div v-for="(user,index) in roomDetails.users" :key="index">
             <div class="card">
               <div class="card-body">
@@ -117,16 +117,17 @@ export default {
       username: localStorage.username,
       data: this.$store.state.roomDetail,
       playingNow: false,
-      cursorType: "not-allowed",
-      pointerEvent: "pointer-events:none",
+      // cursorType: "not-allowed",
+      // pointerEvent: "pointer-events:none",
       tebakan: "",
+      isStart:false
     };
   },
   methods: {
     startGame() {
       let namaRoom = this.roomDetails.name;
       this.$store.dispatch("startGame", namaRoom);
-      this.playingNow = true;
+      this.isStart = true
     },
     nextQuestion() {
       console.log("pertanyaan berikutnya");
@@ -160,6 +161,7 @@ export default {
   },
   computed: {
     roomDetails() {
+      console.log(this.$store.state.roomDetail.users,'dari computed room details')
       return this.$store.state.roomDetail;
     },
     isPlaying() {
@@ -192,12 +194,20 @@ export default {
       let tampilan = `Winner : ${winner}`;
       return tampilan;
     },
+    isFinish(){
+      let rounds = this.$store.state.roomDetail.rounds;
+      if(rounds === 4){
+        return true
+      }
+      else{
+        return false
+      }
+    }
   },
   created() {
     this.$store.dispatch("hasilTebakan");
     this.$store.dispatch("roomDetail");
     this.$store.dispatch("canvasStroke")
-    // window.setInterval(this.nextQuestion,3000)
   },
 };
 </script>
