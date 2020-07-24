@@ -1,6 +1,13 @@
 <template>
   <div class="container game-room">
     <div class="row">
+      <button
+        @click.prevent="toLobby"
+        type="button"
+        class="btn btn-danger fixed-bottom rounded-circle"
+      >
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
       <div class="col align-self-start player-list mr-5 mb-1">
         <h2 v-if="isFinish"> {{winner}} </h2>
         <p v-if="isPlaying === true">{{roomDetails.jawaban}}</p>
@@ -128,6 +135,9 @@ export default {
       let namaRoom = this.roomDetails.name;
       this.$store.dispatch("startGame", namaRoom);
       this.isStart = true
+    },
+    toLobby() {
+      this.$router.push({ name: "Lobby" });
     },
     nextQuestion() {
       console.log("pertanyaan berikutnya");
