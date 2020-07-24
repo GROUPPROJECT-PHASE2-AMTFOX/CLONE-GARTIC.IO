@@ -208,6 +208,7 @@ export default {
     this.$store.dispatch("hasilTebakan");
     this.$store.dispatch("roomDetail");
     this.$store.dispatch("canvasStroke")
+    this.$store.dispatch("roomMessage")
   },
 };
 </script>
