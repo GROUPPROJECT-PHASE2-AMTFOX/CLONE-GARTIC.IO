@@ -4,13 +4,14 @@ const server = require('http').createServer();
 const io = require('socket.io')(server);
 const PORT = process.env.PORT || 3000
 const cors = require('cors')
-const { animalList, itemList } = require('../ListAnimals');
+const { animalList, itemList } = require('./ListAnimals');
 
 
 app.use(cors())
 
 let users = []
 let rooms = []
+let messages = []
 
 io.on('connection', socket => {
     socket.on('user-login', (username) => {
@@ -107,6 +108,14 @@ io.on('connection', socket => {
         }
         // console.log(rooms)
         // console.log(rooms[roomIndex].users)
+    })
+    socket.on('message-room',(data)=>{
+        let roomIndex = rooms.findIndex((i) => i.name == data.roomName)
+        messages.push(data)
+        console.log(data,`message room`)
+        socket.join(data.roomName),function(){
+            io.sockets.in(data.roomName).emit('room-message',data)
+        }
     })
 
 
