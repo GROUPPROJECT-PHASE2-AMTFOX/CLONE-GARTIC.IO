@@ -6,7 +6,7 @@
       v-on:mouseup="handleMouseUp"
       v-on:mousemove="handleMouseMove"
       width="400px"
-      height="200px"
+      height="350px"
     ></canvas>
 
     <!-- <canvas
@@ -127,10 +127,7 @@ this.$store.dispatch('canvasLine',payload)
 </script>
 
 <style>
-body {
-  margin: 2rem;
-  background: #eee;
-}
+
 #canvas {
   border: black solid 3px;
   background: white;
