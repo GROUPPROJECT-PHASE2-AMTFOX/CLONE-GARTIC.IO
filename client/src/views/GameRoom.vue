@@ -22,7 +22,7 @@
               <div class="card-body">
                 <div class="row player-in-room">
                   <div class="col avatar-player-list">
-                    <img src="https://avatars.dicebear.com/api/male/avatar.svg" />
+                    <img src= "https://avatars.dicebear.com/api/male/{{user.name}}.svg" />
                   </div>
                   <div class="col username-player-list">
                     <strong>
