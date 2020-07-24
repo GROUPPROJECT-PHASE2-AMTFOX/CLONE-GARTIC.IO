@@ -15,7 +15,7 @@
       v-on:mousemove="handleMouseMove"
       width="400px"
       height="200px"
-    ></canvas> -->
+    ></canvas>-->
   </div>
 </template>
 
@@ -61,36 +61,26 @@ export default {
         ctx.lineWidth = 2;
         //  console.log(this.currentMouse.x, this.currentMouse.y,'dari draw')
         let payload = {
-          coorX : this.currentMouse.x,
-          coorY : this.currentMouse.y,
-          roomName : this.$store.state.roomDetail.name
-        }
-this.$store.dispatch('canvasLine',payload)
-        
+          coorX: this.currentMouse.x,
+          coorY: this.currentMouse.y,
+          roomName: this.$store.state.roomDetail.name,
+        };
+        this.$store.dispatch("canvasLine", payload);
         ctx.stroke();
-
       }
-    }
-    // ,draw2: function (event) {
-    //   // requestAnimationFrame(this.draw);
-    //   if (this.mouse.down) {
-    //       this.mouse.current = {
-    //       x: event.pageX,
-    //       y: event.pageY,
-    //       };
+    },
+    draw2() {
+      let { coorX, coorY } = this.$store.state.canvasStroke;
+      // console.log(coorX,coorY,'ini ada di draw 2')
+      var c = document.getElementById("canvas");
+      var ctx = c.getContext("2d");
+      ctx.clearRect(0, 0, 800, 800);
+      ctx.lineTo(coorX, coorY);
+      ctx.strokeStyle = "#F63E02";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    },
 
-    //     var c = document.getElementById("canvas2");
-    //     var ctx = c.getContext("2d");
-    //     ctx.clearRect(0, 0, 800, 800);
-    //     ctx.lineTo(this.currentMouse.x, this.currentMouse.y);
-    //     ctx.strokeStyle = "#F63E02";
-    //     ctx.lineWidth = 2;
-    //     //  console.log(this.currentMouse.x, this.currentMouse.y,'dari draw')
-    //     //  console.log(ctx)
-    //     ctx.stroke();
-    //   }
-    // }
-    ,
     handleMouseDown: function (event) {
       this.mouse.down = true;
       this.mouse.current = {
@@ -114,7 +104,12 @@ this.$store.dispatch('canvasLine',payload)
       this.draw(event);
       // this.draw2(event);
     },
-
+  },
+  watch: {
+    "$store.state.canvasStroke"() {
+      console.log("plis bergerak");
+      this.draw2();
+    },
   },
   ready: function () {
     var c = document.getElementById("canvas");
@@ -127,7 +122,6 @@ this.$store.dispatch('canvasLine',payload)
 </script>
 
 <style>
-
 #canvas {
   border: black solid 3px;
   background: white;
