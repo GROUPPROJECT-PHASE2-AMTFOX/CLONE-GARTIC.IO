@@ -2,7 +2,7 @@
   <div class="lobby">
     <div class="lobby-header">
       <h2 class="haha">
-        <strong>Welcome Username</strong>
+        <strong>Welcome, {{ username }}</strong>
       </h2>
     </div>
     <div class="lobby-body container">

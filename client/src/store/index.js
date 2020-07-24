@@ -10,7 +10,8 @@ export default new Vuex.Store({
     rooms:[],
     roomDetail:{},
     isPlaying:false,
-    canvasStroke:{}
+    canvasStroke:{},
+    answered: false
   },
   mutations: {
     setUsers (state, payload) {
@@ -29,8 +30,15 @@ export default new Vuex.Store({
     startGame(state){
       state.isPlaying=true
     },
+    nextRound(state) {
+      state.answered = false
+    },
     canvasStroke(state,data){
       state.canvasStroke=data
+    },
+    answered(payload) {
+      state.answered = payload
+      console.log(payload)
     }
   },
   actions: {
@@ -67,6 +75,7 @@ socket.on('updated-rooms',(data)=>{
       socket.on('room-detail',(data) =>{
         console.log(data,'dari room Detail')
         context.commit('roomDetail',data)
+        context.commit('answered', false)
       })
     },
     startGame(context,data){
@@ -74,7 +83,7 @@ socket.on('updated-rooms',(data)=>{
       context.commit('startGame')
     },
     nextQuestion(context,data){
-      console.log('sudah di dalam index store')
+      
       socket.emit('next-question',data)
     },
     canvasLine(context,data){

@@ -93,6 +93,17 @@
                       placeholder="type your answer"
                       style="min-width=200px"
                       v-model="tebakan"
+                      v-if="answered == false"
+                    />
+                    <input
+                      type="text"
+                      name="chat"
+                      id="chatbox"
+                      placeholder="udah betul bang"
+                      style="min-width=200px"
+                      v-model="tebakan"
+                      disabled
+                      v-if="answered == true"
                     />
                     <input type="submit" name="submit" value="submit" />
                   </div>
@@ -120,6 +131,7 @@ export default {
       cursorType: "not-allowed",
       pointerEvent: "pointer-events:none",
       tebakan: "",
+      answered: this.$store.state.answered
     };
   },
   methods: {
@@ -129,11 +141,11 @@ export default {
       this.playingNow = true;
     },
     nextQuestion() {
-      console.log("pertanyaan berikutnya");
       let payload = {
-        dataRoom: this.$store.state.roomDetail,
+        dataRoom: this.$store.state.roomDetail
       };
       this.$store.dispatch("nextQuestion", payload);
+      answered = false
     },
     drawTime() {
       let localIndex = this.$store.state.roomDetail.index;
@@ -149,18 +161,26 @@ export default {
       }
     },
     tebak() {
-      console.log(this.tebakan);
+      let keyword = this.roomDetails.jawaban
       let payload = {
         username: localStorage.username,
         tebakan: this.tebakan,
         roomName: this.$store.state.roomDetail.name,
       };
+      
       this.$store.dispatch("tebakanServer", payload);
+      if (this.tebakan == keyword ) {
+        this.answered = true
+      }
+      this.tebakan = ''
     },
   },
   computed: {
     roomDetails() {
       return this.$store.state.roomDetail;
+    },
+    answered() {
+      return this.$store.state.answered
     },
     isPlaying() {
       let localIndex = this.$store.state.roomDetail.index;
@@ -176,6 +196,7 @@ export default {
         }
       }
     },
+    
     winner() {
       let dataRoom = this.$store.state.roomDetail;
       let rounds = this.$store.state.roomDetail.rounds;
@@ -192,12 +213,13 @@ export default {
       let tampilan = `Winner : ${winner}`;
       return tampilan;
     },
+
   },
   created() {
     this.$store.dispatch("hasilTebakan");
     this.$store.dispatch("roomDetail");
     this.$store.dispatch("canvasStroke")
-    // window.setInterval(this.nextQuestion,3000)
+
   },
 };
 </script>
