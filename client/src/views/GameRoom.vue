@@ -196,6 +196,7 @@ export default {
   created() {
     this.$store.dispatch("hasilTebakan");
     this.$store.dispatch("roomDetail");
+    this.$store.dispatch("canvasStroke")
   },
 };
 </script>
