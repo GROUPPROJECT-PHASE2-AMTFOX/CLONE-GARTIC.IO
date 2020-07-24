@@ -197,6 +197,7 @@ export default {
     this.$store.dispatch("hasilTebakan");
     this.$store.dispatch("roomDetail");
     this.$store.dispatch("canvasStroke")
+    // window.setInterval(this.nextQuestion,3000)
   },
 };
 </script>
