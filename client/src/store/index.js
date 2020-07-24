@@ -83,17 +83,22 @@ socket.on('updated-rooms',(data)=>{
     },
     canvasStroke(context){
       socket.on('canvas-stroke',(data)=>{
-        console.log(data,'canvas stroke index store')
         context.commit('canvasStroke',data)
       })
     },
     tebakanServer(context,data){
       console.log(data)
       socket.emit('tebakan-server',data)
+      socket.emit('message-room',data)
     },
     hasilTebakan(context){
       socket.on('hasil-tebakan',(data)=>{
         console.log(data,'hasil tebakan')
+      })
+    },
+    roomMessage(context,data){
+      socket.on('room-message',(data)=>{
+        console.log(data,'dari room Message')
       })
     }
 

@@ -86,25 +86,24 @@ export default {
     },
     draw2() {
       let { coorX, coorY, currentMouse, mouseDown } = this.$store.state.canvasStroke;
-      // console.log(coorX,coorY,'ini ada di draw 2')
-      if(mouseDown){
-
-let c = document.getElementById("canvas");
-      let ctx = c.getContext("2d");
-      let { x,y } = currentMouse
-    // console.log(x,y,currentMouse,'draw2')
-      // var rect = c.getBoundingClientRect();
       
+let c = document.getElementById("canvas");
+
+      let ctx = c.getContext("2d");
+
+      let { x,y } = currentMouse
+    if(mouseDown){
       console.log(x,y,coorX,coorY,'ini bahan ctx move')
       ctx.clearRect(0, 0, 800, 800);
       ctx.lineTo(x, y);
       ctx.strokeStyle = "#F63E02";
       ctx.lineWidth = 2;      
       ctx.stroke();
-      ctx.moveTo(x, y);
+      
+        }
+      else{
+        ctx.moveTo(x, y,'ini dari else ctx di draw 2');
       }
-      
-      
     },
 
     handleMouseDown: function (event) {
@@ -130,8 +129,8 @@ let c = document.getElementById("canvas");
           coorX: this.currentMouse.x,
           coorY: this.currentMouse.y,
           roomName: this.$store.state.roomDetail.name,
-          currentMouse:this.currentMouse,
-          mouseDown:this.mouse.down
+          currentMouse: this.currentMouse,
+          mouseDown: this.mouse.down
         };
         this.$store.dispatch("canvasLine", payload);
 
@@ -147,7 +146,6 @@ let c = document.getElementById("canvas");
   },
   watch: {
     "$store.state.canvasStroke"() {
-      console.log("plis bergerak");
       this.draw2();
     },
   },
