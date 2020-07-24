@@ -1,12 +1,22 @@
 <template>
   <div class="container game-room">
     <div class="row">
+      <button
+        @click.prevent="toLobby"
+        type="button"
+        class="btn btn-danger fixed-bottom rounded-circle"
+      >
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
       <div class="col align-self-start player-list mr-5 mb-1">
-        <h2> {{winner}} </h2>
+        <h2 v-if="isFinish">{{winner}}</h2>
         <p v-if="isPlaying === true">{{roomDetails.jawaban}}</p>
         <button v-if="isPlaying === true" @click="nextQuestion">Next</button>
-        <div class="card-container" v-if="playingNow === false">
-          <button v-if="roomDetails.admin === username" @click="startGame">Start Game</button>
+        <div class="card-container">
+          <button
+            v-if="roomDetails.admin === username && isStart===false"
+            @click="startGame"
+          >Start Game</button>
           <div v-for="(user,index) in roomDetails.users" :key="index">
             <div class="card">
               <div class="card-body">
@@ -27,94 +37,92 @@
           </div>
         </div>
       </div>
-        <div class="col game-grid">
-          <div class="row">
-            <div class="canvas mt-3">
-              <Canvas></Canvas>
-            </div>
+      <div class="col game-grid">
+        <div class="row">
+          <div class="canvas mt-3">
+            <Canvas></Canvas>
           </div>
-          
-            <div class="col-lg chat-box mt-1  ml-5">
-              <div class="chat-answer col mr-2">
-                <div class="message-box">
-                  <p class="chatlog">
-                    <strong>Username:</strong>swan
-                  </p>
-                  <p class="chatlog">
-                    <span>
-                      <strong>Username:</strong>bebek
-                    </span>
-                  </p>
-                  <p class="chatlog">
-                    <span>
-                      <strong>Username:</strong>banteng
-                    </span>
-                  </p>
-                  <p class="chatlog">
-                    <span>
-                      <strong>Username:</strong>kelinci
-                    </span>
-                  </p>
-                  <p class="chatlog">
-                    <span>
-                      <strong>Username:</strong>wkwkkwwk
-                    </span>
-                  </p>
-                  <p class="chatlog">
-                    <strong>Username:</strong>swan
-                  </p>
-                  <p class="chatlog">
-                    <span>
-                      <strong>Username:</strong>bebek
-                    </span>
-                  </p>
-                  <p class="chatlog">
-                    <span>
-                      <strong>Username:</strong>banteng
-                    </span>
-                  </p>
-                  <p class="chatlog">
-                    <span>
-                      <strong>Username:</strong>kelinci
-                    </span>
-                  </p>
-                  <p class="chatlog">
-                    <span>
-                      <strong>Username:</strong>wkwkkwwk
-                    </span>
-                  </p>
-                </div>
-                <form @submit.prevent="tebak">
-                  <div class="input-box">
-                    <input
-                      type="text"
-                      name="chat"
-                      id="chatbox"
-                      placeholder="type your answer"
-                      style="min-width=200px"
-                      v-model="tebakan"
-                      v-if="answered == false"
-                    />
-                    <input
-                      type="text"
-                      name="chat"
-                      id="chatbox"
-                      placeholder="udah betul bang"
-                      style="min-width=200px"
-                      v-model="tebakan"
-                      disabled
-                      v-if="answered == true"
-                    />
-                    <input type="submit" name="submit" value="submit" />
-                  </div>
-                </form>
-              </div>
+        </div>
+
+        <div class="col-lg chat-box mt-1 ml-5">
+          <div class="chat-answer col mr-2">
+            <div class="message-box">
+              <p class="chatlog">
+                <strong>Username:</strong>swan
+              </p>
+              <p class="chatlog">
+                <span>
+                  <strong>Username:</strong>bebek
+                </span>
+              </p>
+              <p class="chatlog">
+                <span>
+                  <strong>Username:</strong>banteng
+                </span>
+              </p>
+              <p class="chatlog">
+                <span>
+                  <strong>Username:</strong>kelinci
+                </span>
+              </p>
+              <p class="chatlog">
+                <span>
+                  <strong>Username:</strong>wkwkkwwk
+                </span>
+              </p>
+              <p class="chatlog">
+                <strong>Username:</strong>swan
+              </p>
+              <p class="chatlog">
+                <span>
+                  <strong>Username:</strong>bebek
+                </span>
+              </p>
+              <p class="chatlog">
+                <span>
+                  <strong>Username:</strong>banteng
+                </span>
+              </p>
+              <p class="chatlog">
+                <span>
+                  <strong>Username:</strong>kelinci
+                </span>
+              </p>
+              <p class="chatlog">
+                <span>
+                  <strong>Username:</strong>wkwkkwwk
+                </span>
+              </p>
             </div>
-          
+            <form @submit.prevent="tebak">
+              <div class="input-box">
+                <input
+                  type="text"
+                  name="chat"
+                  id="chatbox"
+                  placeholder="type your answer"
+                  style="min-width=200px"
+                  v-model="tebakan"
+                  v-if="answered == false"
+                />
+                <input
+                  type="text"
+                  name="chat"
+                  id="chatbox"
+                  placeholder="udah betul bang"
+                  style="min-width=200px"
+                  v-model="tebakan"
+                  disabled
+                  v-if="answered == true"
+                />
+                <input type="submit" name="submit" value="submit" />
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  
+  </div>
 </template>
 
 <script>
@@ -128,24 +136,25 @@ export default {
       username: localStorage.username,
       data: this.$store.state.roomDetail,
       playingNow: false,
-      cursorType: "not-allowed",
-      pointerEvent: "pointer-events:none",
+      // cursorType: "not-allowed",
+      // pointerEvent: "pointer-events:none",
       tebakan: "",
-      answered: this.$store.state.answered
+      isStart: false,
+      answered: false,
     };
   },
   methods: {
     startGame() {
       let namaRoom = this.roomDetails.name;
       this.$store.dispatch("startGame", namaRoom);
-      this.playingNow = true;
+      this.isStart = true;
     },
     nextQuestion() {
       let payload = {
-        dataRoom: this.$store.state.roomDetail
+        dataRoom: this.$store.state.roomDetail,
       };
       this.$store.dispatch("nextQuestion", payload);
-      answered = false
+      this.answered = false;
     },
     drawTime() {
       let localIndex = this.$store.state.roomDetail.index;
@@ -160,27 +169,34 @@ export default {
         }
       }
     },
+    toLobby() {
+      this.$router.push({ name: "Lobby" });
+    },
     tebak() {
-      let keyword = this.roomDetails.jawaban
+      let keyword = this.roomDetails.jawaban;
       let payload = {
         username: localStorage.username,
         tebakan: this.tebakan,
         roomName: this.$store.state.roomDetail.name,
       };
-      
+
       this.$store.dispatch("tebakanServer", payload);
-      if (this.tebakan == keyword ) {
-        this.answered = true
+      if (this.tebakan == keyword) {
+        this.answered = true;
       }
-      this.tebakan = ''
+      this.tebakan = "";
     },
   },
   computed: {
     roomDetails() {
+      console.log(
+        this.$store.state.roomDetail.users,
+        "dari computed room details"
+      );
       return this.$store.state.roomDetail;
     },
     answered() {
-      return this.$store.state.answered
+      return this.$store.state.answered;
     },
     isPlaying() {
       let localIndex = this.$store.state.roomDetail.index;
@@ -196,7 +212,7 @@ export default {
         }
       }
     },
-    
+
     winner() {
       let dataRoom = this.$store.state.roomDetail;
       let rounds = this.$store.state.roomDetail.rounds;
@@ -213,13 +229,19 @@ export default {
       let tampilan = `Winner : ${winner}`;
       return tampilan;
     },
-
+    isFinish() {
+      let rounds = this.$store.state.roomDetail.rounds;
+      if (rounds === 4) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   created() {
     this.$store.dispatch("hasilTebakan");
     this.$store.dispatch("roomDetail");
-    this.$store.dispatch("canvasStroke")
-
+    this.$store.dispatch("canvasStroke");
   },
 };
 </script>
@@ -228,8 +250,6 @@ export default {
 .game-room {
   display: flex;
 }
-
-
 
 .player-list {
   background: rgb(235, 235, 240, 0);
@@ -246,7 +266,7 @@ export default {
 
 .card {
   width: 100%;
-  
+
   border-radius: 2rem;
   margin: 5px 5px;
 }
@@ -303,7 +323,6 @@ img {
   padding-left: 15px;
   border-radius: 15px;
 }
-
 
 .card-container {
   width: 250px;

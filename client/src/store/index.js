@@ -73,14 +73,14 @@ socket.on('updated-rooms',(data)=>{
     },
     roomDetail(context){
       socket.on('room-detail',(data) =>{
-        console.log(data,'dari room Detail')
+        console.log(data.users,'dari room Detail')
         context.commit('roomDetail',data)
         context.commit('answered', false)
       })
     },
     startGame(context,data){
       socket.emit('start-game',data)
-      context.commit('startGame')
+      // context.commit('startGame')
     },
     nextQuestion(context,data){
       

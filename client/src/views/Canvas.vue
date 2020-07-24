@@ -1,5 +1,9 @@
 <template>
   <div>
+
+    <div>
+      <input type="button" id="clear" value="clear" @click="clearCanvas">
+    </div>
     <canvas
       id="canvas"
       v-on:mousedown="handleMouseDown"
@@ -9,6 +13,7 @@
       height="350px"
       :style="{'pointer-events':isPlaying}"
     ></canvas>
+    
 
     <!-- <canvas
       id="canvas2"
@@ -21,6 +26,7 @@
 </template>
 
 <script>
+import socket from '../config/socket'
 export default {
   data() {
     return {
@@ -70,38 +76,34 @@ export default {
         var c = document.getElementById("canvas");
         var ctx = c.getContext("2d");
         ctx.clearRect(0, 0, 800, 800);
-
         ctx.lineTo(this.currentMouse.x, this.currentMouse.y);
         ctx.strokeStyle = "#F63E02";
         ctx.lineWidth = 2;
         //  console.log(this.currentMouse.x, this.currentMouse.y,'dari draw')
-        let payload = {
-          coorX: this.currentMouse.x,
-          coorY: this.currentMouse.y,
-          roomName: this.$store.state.roomDetail.name,
-        };
-        this.$store.dispatch("canvasLine", payload);
+        
         ctx.stroke();
       }
     },
     draw2() {
-      
-      let { coorX, coorY } = this.$store.state.canvasStroke;
-      
+      let { coorX, coorY, currentMouse, mouseDown } = this.$store.state.canvasStroke;
       // console.log(coorX,coorY,'ini ada di draw 2')
-      var c = document.getElementById("canvas");
-      var ctx = c.getContext("2d");
-      
-          
+      if(mouseDown){
 
+let c = document.getElementById("canvas");
+      let ctx = c.getContext("2d");
+      let { x,y } = currentMouse
+    // console.log(x,y,currentMouse,'draw2')
+      // var rect = c.getBoundingClientRect();
+      
+      console.log(x,y,coorX,coorY,'ini bahan ctx move')
       ctx.clearRect(0, 0, 800, 800);
-      
-      ctx.lineTo(coorX, coorY);
-
+      ctx.lineTo(x, y);
       ctx.strokeStyle = "#F63E02";
-      ctx.lineWidth = 2;
-// ctx.moveTo(coorX, coorY);      
+      ctx.lineWidth = 2;      
       ctx.stroke();
+      ctx.moveTo(x, y);
+      }
+      
       
     },
 
@@ -124,10 +126,24 @@ export default {
         x: event.pageX,
         y: event.pageY,
       };
+      let payload = {
+          coorX: this.currentMouse.x,
+          coorY: this.currentMouse.y,
+          roomName: this.$store.state.roomDetail.name,
+          currentMouse:this.currentMouse,
+          mouseDown:this.mouse.down
+        };
+        this.$store.dispatch("canvasLine", payload);
 
       this.draw(event);
       // this.draw2(event);
     },
+    clearCanvas(){
+           var c = document.getElementById("canvas");
+      var ctx = c.getContext("2d");
+      ctx.beginPath();
+      ctx.clearRect(0,0,800,800)
+    }
   },
   watch: {
     "$store.state.canvasStroke"() {
@@ -142,6 +158,12 @@ export default {
     ctx.imageSmoothingEnabled = false;
     // this.draw();
   },
+  created(){
+    this.$store.dispatch('clearCanvas')
+    socket.on('clear-canvas',()=>{
+      this.clearCanvas()
+    })
+  }
 };
 </script>
 

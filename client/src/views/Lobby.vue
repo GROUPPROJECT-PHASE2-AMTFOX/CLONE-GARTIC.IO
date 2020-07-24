@@ -9,7 +9,8 @@
       <div class="card-height justify-content-around">
         
         <div class="form-create">
-            <h2>Create A Room</h2>
+            <button @click.prevent="logout" type="button" class="btn btn-danger fixed-bottom rounded-circle "><i class="fas fa-sign-out-alt"></i></button>
+            
           <form @submit.prevent="createRoom">
             <input type="text" v-model="roomName" placeholder="Enter Room Name" class="create-room-form-input" />
             <br />
@@ -142,6 +143,14 @@ name: 'Home',
   flex-direction: row;
   align-items: center;
 }
+
+.fixed-bottom {
+      left: auto;
+      right: 25px;
+      bottom: 30px;
+      width: 80px;
+      height: 80px;
+  }
 
 .room{
     display: flex;
