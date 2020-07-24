@@ -7,6 +7,7 @@
       v-on:mousemove="handleMouseMove"
       width="400px"
       height="350px"
+      :style="{'pointer-events':isPlaying}"
     ></canvas>
 
     <!-- <canvas
@@ -47,6 +48,20 @@ export default {
         y: this.mouse.current.y - rect.top,
       };
     },
+    isPlaying() {
+      let localIndex = this.$store.state.roomDetail.index;
+      if (localIndex === undefined) {
+        console.log("local index undefined");
+        return "none"
+      } else {
+        let player = this.$store.state.roomDetail.users[localIndex].name;
+        if (player === localStorage.username) {
+          return "auto";
+        } else {
+          return "none";
+        }
+      }
+    }
   },
   methods: {
     draw: function (event) {
@@ -70,15 +85,24 @@ export default {
       }
     },
     draw2() {
+      
       let { coorX, coorY } = this.$store.state.canvasStroke;
+      
       // console.log(coorX,coorY,'ini ada di draw 2')
       var c = document.getElementById("canvas");
       var ctx = c.getContext("2d");
+      
+          
+
       ctx.clearRect(0, 0, 800, 800);
+      
       ctx.lineTo(coorX, coorY);
+
       ctx.strokeStyle = "#F63E02";
       ctx.lineWidth = 2;
+// ctx.moveTo(coorX, coorY);      
       ctx.stroke();
+      
     },
 
     handleMouseDown: function (event) {
