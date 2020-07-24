@@ -2,10 +2,13 @@
   <div class="container game-room">
     <div class="row">
       <div class="col align-self-start player-list mr-5 mb-1">
-        <h2>Player List</h2>
+        <h2> {{winner}} </h2>
+        <p v-if="isPlaying === true">{{roomDetails.jawaban}}</p>
+        <button v-if="isPlaying === true" @click="nextQuestion">Next</button>
         <div class="card-container" v-if="playingNow === false">
           <button v-if="roomDetails.admin === username" @click="startGame">Start Game</button>
-            <div class="card" v-for="(user,index) in roomDetails.users" :key="index">
+          <div v-for="(user,index) in roomDetails.users" :key="index">
+            <div class="card">
               <div class="card-body">
                 <div class="row player-in-room">
                   <div class="col avatar-player-list">
@@ -21,7 +24,7 @@
                 </div>
               </div>
             </div>
-          
+          </div>
         </div>
       </div>
         <div class="col game-grid">
